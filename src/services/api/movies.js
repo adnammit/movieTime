@@ -10,11 +10,12 @@ export default {
   getMovies () {
     return axios.get('/?page=1&r=json&s=Avengers%20Endgame')
       .then(res => {
-        /* eslint-disable no-console */
-        console.log('>> RES')
-        console.log(res.data.Search)
-
-        return res.data.Search
+        let movies = res.data.Search
+        movies.forEach(m => {
+          m.Rating = 5
+          m.watched = true
+        })
+        return movies
       })
   }
 }

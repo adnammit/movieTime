@@ -25,12 +25,16 @@
 						<tr>
 							<th class="text-center">Movie</th>
 							<th class="text-center">Year</th>
+							<th class="text-center">Rating</th>
+							<th class="text-center">Watched</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr v-for="movie in movies" :key="movie.Title">
 							<td>{{ movie.Title }}</td>
 							<td>{{ movie.Year }}</td>
+							<td>{{ movie.Rating }} / 10</td>
+							<td><span v-if="movie.Watched">x</span></td>
 						</tr>
 					</tbody>
 				</template>

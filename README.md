@@ -56,7 +56,7 @@ A list of all movies in the collection. Filterable by:
 
 ## TO DO
 * add [uNoGS](https://rapidapi.com/unogs/api/unogs) to query whether or not a movie is available on netflix
-* typescript yo
+* typescript yo -- do some processing on movies
 
 
 ## DONE

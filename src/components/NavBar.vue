@@ -1,6 +1,6 @@
 <template>
-	<v-app>
-		<!-- <v-app-bar app>
+	<div class="container-fluid mt-4">
+		<v-app-bar app>
 			<v-toolbar-title class="headline text-uppercase">
 				<v-btn text href="/">
 					<span>WTFSWW</span>
@@ -10,31 +10,19 @@
 				<span class="font-weight-light">My Movies</span>
 			</v-btn>
 			<v-spacer></v-spacer>
-
 			<v-btn text href="#" @click.prevent="login" v-if="!activeUser">
 				<span class="mr-2">Log In</span>
 			</v-btn>
 			<v-btn text href="#" @click.prevent="logout" v-else>
 				<span class="mr-2">Log Out</span>
 			</v-btn>
-		</v-app-bar> -->
-    <NavBar />
-		<v-content>
-			<router-view />
-		</v-content>
-	</v-app>
+		</v-app-bar>
+	</div>
 </template>
-
 <script>
-import NavBar from '@/components/NavBar'
-
 export default {
-  name: 'app',
   props: {
     source: String
-  },
-  components: {
-    NavBar
   },
   data () {
     return {
@@ -63,3 +51,17 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+// .content {
+// 	height: 90vh;
+// 	padding: 20px;
+// 	// display: flex;
+// 	align-items: center;
+// 	justify-content: center;
+// 	text-align: center;
+// 	.loading {
+// 		padding-top: 23px;
+// 	}
+// }
+</style>
