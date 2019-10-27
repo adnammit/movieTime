@@ -24,13 +24,18 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
-
 ## Okta Auth
 Protected by [Okta OpenId authentication](https://developer.okta.com/blog/2018/02/15/build-crud-app-vuejs-node) to keep your guilty pleasures a secret.
 
 Reference the injected AuthClient with `this.$auth` anywhere in the Vue instance
 
 To protect a page, add the `requiresAuth` attribute to its route in `router/index`
+
+
+## Other Ref
+[Name That Color](http://chir.ag/projects/name-that-color/#42853E)
+
+
 
 ## App Design
 
@@ -71,23 +76,7 @@ A list of all movies in the collection. Filterable by:
 * typescript yo -- do some processing on movies
     - go through script and make sure you don't have dupe functions
 * what is your data model here? what will be retrieved via api vs stored?
-    - data that would need to be stored: 
-        ```json
-            {
-                [
-                    {
-                        "id": "tt0848228",
-                        "favorite": "true",
-                        "watched": "true"
-                    },
-                    {
-                        "id": "tt0848228",
-                        "favorite": "false",
-                        "watched": "false"
-                    },
-                ]                
-            }
-        ```
+    - data that would need to be stored: check out `data.json`
 * figure out how to store user selections
     - psql
     - json file

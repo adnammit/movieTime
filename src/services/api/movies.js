@@ -12,7 +12,7 @@ export default {
   searchMovies (search) {
     return axios.get(omdbUrl + '?s=' + search + '&' + key)
       .then(res => {
-        console.log(res.data)
+        // console.log(res.data)
         let data = res.data.Search
         let movies = []
         data.forEach(d => {
@@ -23,38 +23,49 @@ export default {
   },
 
   async getMovie (id) {
-    // console.log('>> getting movie for id ' + id)
     return axios.get(omdbUrl + '?i=' + id + '&plot=full&' + key)
       .then(res => {
         /* eslint-disable no-console */
-        console.log(res.data)
+        // console.log(res.data)
         return this.parseMovie(res.data)
       })
   },
 
-  async getMovies (ids) {
+  // async getMovies (ids) {
+  //   let movies = []
+  //   for (var id of ids) {
+  //     let movie = await this.getMovie(id)
+  //     movies.push(movie)
+  //   }
+  //   return movies
+  // },
+
+  async getMovies (collection) {
+    let ids = collection.map(c => c.id)
     let movies = []
+
     for (var id of ids) {
       let movie = await this.getMovie(id)
+      let item = collection.find(c => c.id === movie.Id)
+      movie.Watched = (item.watched === 'true')
+      movie.Favorite = (item.favorite === 'true')
       movies.push(movie)
     }
     return movies
   },
 
   parseMovie (res) {
-    let genres = res.Genre.split(',')
+    let genres = res.Genre ? res.Genre.split(',')
       .map((genre) => {
         return genre.trim()
-      })
-
-    console.log(genres)
+      }) : null
 
     let movie = {
       Title: res.Title,
       Year: res.Year,
-      Id: res.imdbId,
+      Id: res.imdbID,
       Rated: res.Rated,
-      Genres: genres, /// res.Genre, // comma-separated list
+      Genres: genres,
       Runtime: res.Runtime,
       Rating: res.imdbRating,
       Poster: res.Poster,
@@ -64,9 +75,6 @@ export default {
       Favorite: false,
       Shelves: null
     }
-    /* eslint-disable no-console */
-    console.log(movie)
-
     return movie
   }
 

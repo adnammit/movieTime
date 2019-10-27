@@ -117,19 +117,9 @@ export default {
     }
   },
   async created () {
-    // call a function to load "my stuff" but until then:
-    let ids = [
-      'tt0848228',
-      'tt4154756',
-      'tt0120082',
-      'tt0096283',
-      'tt0073076',
-      'tt4106374',
-      'tt0418279',
-      'tt0266543'
-    ]
+    let collection = this.getCollection()
     moviesApi
-      .getMovies(ids)
+      .getMovies(collection)
       .then(movies => {
         this.movies = movies
       })
@@ -147,12 +137,16 @@ export default {
       movie.Watched = !movie.Watched
     },
     getGenreMatch (movie, genre) {
-      console.log(movie.Genres)
-      console.log(typeof movie.Genres)
       if (movie.Genres) {
         return movie.Genres.includes(genre)
       }
       return false
+    },
+    getCollection () {
+      var json = require('@/data.json')
+      let userData = json.data.find(d => d.username === 'amandaryman@gmail.com')
+      let collection = (userData != null) ? userData.collection : null
+      return collection
     }
   }
 }

@@ -1,0 +1,39 @@
+{
+    "data": [
+        {
+            "username": "amandaryman@gmail.com",
+            "collection": [
+                {
+                    "id": "tt0848228",
+                    "favorite": "true",
+                    "watched": "true"
+                },
+                {
+                    "id": "tt4154756",
+                    "favorite": "false",
+                    "watched": "false"
+                },
+                {
+                    "id": "tt0120082",
+                    "favorite": "false",
+                    "watched": "false"
+                },
+                {
+                    "id": "tt0096283",
+                    "favorite": "false",
+                    "watched": "true"
+                },
+                {
+                    "id": "tt0073076",
+                    "favorite": "true",
+                    "watched": "false"
+                },
+                {
+                    "id": "tt4106374",
+                    "favorite": "false",
+                    "watched": "false"
+                }
+            ]
+        }
+    ]
+}
