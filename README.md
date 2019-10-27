@@ -51,14 +51,75 @@ A list of all movies in the collection. Filterable by:
 * add movies to collection
 * add rating to a movie in the collection
 * set watched flag for movies in collection
-* 
+* set favorite flag for movies in collection
 
 
 ## TO DO
+* work flow: 
+    - default: display all in own collection
+    - click Favorites to filter favorites
+    - click To Do to filter unwatched
+    - unclicking Favorites/To Do displays all in collection
+    - running a search either:
+        * replaces collection with search results (swap Movies.vue for Results.vue?)
+            - similar look to Movies but with a button to add the movie instead of watched/favorite flags
+            - clicking a search result will open a modal w more details
+        * show dropdown w basic info for each movie. 
+            - hover shows details 
+            - clicking adds the movie... idk
 * add [uNoGS](https://rapidapi.com/unogs/api/unogs) to query whether or not a movie is available on netflix
 * typescript yo -- do some processing on movies
+    - go through script and make sure you don't have dupe functions
+* what is your data model here? what will be retrieved via api vs stored?
+    - data that would need to be stored: 
+        ```json
+            {
+                [
+                    {
+                        "id": "tt0848228",
+                        "favorite": "true",
+                        "watched": "true"
+                    },
+                    {
+                        "id": "tt0848228",
+                        "favorite": "false",
+                        "watched": "false"
+                    },
+                ]                
+            }
+        ```
+* figure out how to store user selections
+    - psql
+    - json file
+* add a store
+    - replace movies w/ results when searching
+    - pass around isLoading/isErrored maybe 
+    - toggle favorites/unwatched views
+* search function
+    - display results in dropdown: whether they are in collection or not
+    - on click
+    - how to set error message (no results found)    
+* nice stuff
+    - add genres: 
+        * mystery
+    - do something with posters?
+    - for a row, if click (hover?), display modal w/ poster and plot
+    - add sort by genre
+    - allow sort by name, year, rating, watched, favorited
+* consolidate css into separate files if that makes sense
 
 
 ## DONE
 * refactor to use a centralized request mgr for cleaner code -- let components just be components
 * re-write to use vuetify instead of bootstrap
+* nice stuff
+    - how to represent genres? icons?
+        horror - ghost
+        scifi - death-star-variant
+        action - car-sports, gun, run-fast 
+        comedy - emoticon-lol, emoticon-lol-outline
+        drama - drama
+        romance - heart-multiple
+        animation - draw
+        western - cowboy, cactus
+        documentary - video-vintage

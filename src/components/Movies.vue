@@ -1,29 +1,14 @@
 <template>
 	<div class="container-fluid mt-4">
-		<div>
-			<v-toolbar>
-				<v-toolbar-title>Movies</v-toolbar-title>
-
-				<v-spacer></v-spacer>
-
-				<v-toolbar-items>
-					<v-btn text>Search</v-btn>
-					<v-btn text>Favorites</v-btn>
-					<v-btn text>Add</v-btn>
-				</v-toolbar-items>
-			</v-toolbar>
-		</div>
-		<div class="text-center loader" v-bind:class="{ loading: isLoading}">
-			<div v-if="isLoading">
-				<v-progress-linear indeterminate color="cyan"></v-progress-linear>
-			</div>
-		</div>
-		<div class="text-center content">
+		<FilterBar />
+		<div class="text-center movie-table">
 			<v-simple-table>
 				<template v-slot:default>
 					<thead>
 						<tr>
+							<th class="text-center"></th>
 							<th class="text-center">Movie</th>
+							<th class="text-center">Genre</th>
 							<th class="text-center">Year</th>
 							<th class="text-center">Rating</th>
 							<th class="text-center">Watched</th>
@@ -31,10 +16,85 @@
 					</thead>
 					<tbody>
 						<tr v-for="movie in movies" :key="movie.Title">
+							<!-- Favorite -->
+							<td @click="toggleFavorite(movie)">
+								<v-icon v-if="movie.Favorite" class="favorite">mdi-star-circle</v-icon>
+								<v-icon v-else class="icon--deselected">mdi-star-circle-outline</v-icon>
+							</td>
+							<!-- Title -->
 							<td>{{ movie.Title }}</td>
+							<!-- Genre Icons -->
+							<td>
+								<v-tooltip top>
+									<template v-slot:activator="{ on }">
+										<v-icon v-if="getGenreMatch (movie, 'Horror')" v-on="on">mdi-skull</v-icon>
+									</template>
+									<span>Horror</span>
+								</v-tooltip>
+								<v-tooltip top>
+									<template v-slot:activator="{ on }">
+										<v-icon v-if="getGenreMatch (movie, 'Sci-Fi')" v-on="on">mdi-death-star-variant</v-icon>
+									</template>
+									<span>Sci-Fi</span>
+								</v-tooltip>
+								<v-tooltip top>
+									<template v-slot:activator="{ on }">
+										<v-icon v-if="getGenreMatch (movie, 'Action')" v-on="on">mdi-karate</v-icon>
+									</template>
+									<span>Action</span>
+								</v-tooltip>
+								<v-tooltip top>
+									<template v-slot:activator="{ on }">
+										<v-icon v-if="getGenreMatch (movie, 'Comedy')" v-on="on">mdi-emoticon-excited</v-icon>
+									</template>
+									<span>Comedy</span>
+								</v-tooltip>
+								<v-tooltip top>
+									<template v-slot:activator="{ on }">
+										<v-icon v-if="getGenreMatch (movie, 'Drama')" v-on="on">mdi-drama</v-icon>
+									</template>
+									<span>Drama</span>
+								</v-tooltip>
+								<v-tooltip top>
+									<template v-slot:activator="{ on }">
+										<v-icon v-if="getGenreMatch (movie, 'Romance')" v-on="on">mdi-heart-multiple</v-icon>
+									</template>
+									<span>Romance</span>
+								</v-tooltip>
+								<v-tooltip top>
+									<template v-slot:activator="{ on }">
+										<v-icon v-if="getGenreMatch (movie, 'Animation')" v-on="on">mdi-brush</v-icon>
+									</template>
+									<span>Animation</span>
+								</v-tooltip>
+								<v-tooltip top>
+									<template v-slot:activator="{ on }">
+										<v-icon v-if="getGenreMatch (movie, 'Western')" v-on="on">mdi-cactus</v-icon>
+									</template>
+									<span>Western</span>
+								</v-tooltip>
+								<v-tooltip top>
+									<template v-slot:activator="{ on }">
+										<v-icon v-if="getGenreMatch (movie, 'Documentary')" v-on="on">mdi-video-vintage</v-icon>
+									</template>
+									<span>Documentary</span>
+								</v-tooltip>
+								<v-tooltip top>
+									<template v-slot:activator="{ on }">
+										<v-icon v-if="getGenreMatch (movie, 'Family')" v-on="on">mdi-account-child</v-icon>
+									</template>
+									<span>Kids</span>
+								</v-tooltip>
+							</td>
+							<!-- Year -->
 							<td>{{ movie.Year }}</td>
-							<td>{{ movie.Rating }} / 10</td>
-							<td><span v-if="movie.Watched">x</span></td>
+							<!-- Rating -->
+							<td>{{ movie.Rating }}</td>
+							<!-- Watched -->
+							<td @click="toggleWatched(movie)">
+								<v-icon v-if="movie.Watched" class="complete">mdi-check-bold</v-icon>
+								<v-icon v-else class="icon--deselected">mdi-panorama-fisheye</v-icon>
+							</td>
 						</tr>
 					</tbody>
 				</template>
@@ -44,8 +104,12 @@
 </template>
 <script>
 import moviesApi from '@/services/api/movies'
+import FilterBar from '@/components/FilterBar'
 
 export default {
+  components: {
+    FilterBar
+  },
   data () {
     return {
       isLoading: true,
@@ -53,14 +117,21 @@ export default {
     }
   },
   async created () {
+    // call a function to load "my stuff" but until then:
+    let ids = [
+      'tt0848228',
+      'tt4154756',
+      'tt0120082',
+      'tt0096283',
+      'tt0073076',
+      'tt4106374',
+      'tt0418279',
+      'tt0266543'
+    ]
     moviesApi
-      .getMovies()
+      .getMovies(ids)
       .then(movies => {
         this.movies = movies
-
-        /* eslint-disable no-console */
-        console.log('>> MOVIES')
-        console.log(this.movies)
       })
     /* eslint-disable no-console */
       .catch(e => console.log(e))
@@ -68,26 +139,60 @@ export default {
         this.isLoading = false
       })
   },
-  watch: {
-    // everytime a route is changed refresh the activeUser
-    // $route: 'refreshActiveUser',
-  },
   methods: {
-    async search () {}
+    toggleFavorite (movie) {
+      movie.Favorite = !movie.Favorite
+    },
+    toggleWatched (movie) {
+      movie.Watched = !movie.Watched
+    },
+    getGenreMatch (movie, genre) {
+      console.log(movie.Genres)
+      console.log(typeof movie.Genres)
+      if (movie.Genres) {
+        return movie.Genres.includes(genre)
+      }
+      return false
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.content {
+@import '@/style/colors';
+
+.movie-table {
 	height: 90vh;
-	padding: 20px;
-	// display: flex;
+	padding: 0;
 	align-items: center;
 	justify-content: center;
 	text-align: center;
 	.loading {
 		padding-top: 23px;
 	}
+	thead {
+		background-color: $tundora-shaft;
+		text-transform: uppercase;
+		tr th {
+			letter-spacing: 2px;
+			font-weight: 600;
+		}
+	}
+	td {
+		letter-spacing: 1px;
+		color: $alto;
+	}
+}
+.v-icon {
+	color: $silver;
+}
+.icon--deselected {
+	color: $dove-gray;
+}
+.favorite {
+	color: $turmeric;
+}
+.complete {
+	color: $goblin;
 }
 </style>

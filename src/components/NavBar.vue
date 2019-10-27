@@ -1,5 +1,5 @@
 <template>
-	<div class="container-fluid mt-4">
+	<div class="container-fluid mt-4 nav-bar">
 		<v-app-bar app>
 			<v-toolbar-title class="headline text-uppercase">
 				<v-btn text href="/">
@@ -32,10 +32,6 @@ export default {
   async created () {
     await this.refreshActiveUser()
   },
-  watch: {
-    // everytime a route is changed refresh the activeUser
-    $route: 'refreshActiveUser'
-  },
   methods: {
     login () {
       this.$auth.loginRedirect()
@@ -53,15 +49,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
-// .content {
-// 	height: 90vh;
-// 	padding: 20px;
-// 	// display: flex;
-// 	align-items: center;
-// 	justify-content: center;
-// 	text-align: center;
-// 	.loading {
-// 		padding-top: 23px;
-// 	}
-// }
+@import '@/style/colors';
+
+.nav-bar {
+  .v-toolbar {
+    background-color: $mine-shaft !important;
+    // background-color: $dove-gray !important;
+    padding-bottom: -50px;
+		color: $alto;
+  }
+}
 </style>
