@@ -7,34 +7,34 @@
 	</v-app>
 </template>
 
-<script>
-import NavBar from '@/components/NavBar'
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import { Prop, Watch } from 'vue-property-decorator'
+import NavBar from '@/components/NavBar.vue'
 
-export default {
-  name: 'app',
-  props: {
-    source: String
-  },
+@Component({
   components: {
     NavBar
-  },
-  data () {
-    return {
-      activeUser: null
-    }
-  },
-  async created () {
-    await this.refreshActiveUser()
-  },
-  watch: {
-    // everytime a route is changed refresh the activeUser
-    $route: 'refreshActiveUser'
-  },
-  methods: {
-    async refreshActiveUser () {
-      this.activeUser = await this.$auth.getUser()
-    }
   }
+})
+
+export default class App extends Vue {
+  private activeUser: string | null = null;
+
+  @Watch('$route')
+  onRouteChanged () {
+    this.refreshActiveUser()
+  }
+
+  private async refreshActiveUser () {
+    this.activeUser = await this.$auth.getUser()
+  }
+
+  async mounted () {
+    await this.refreshActiveUser()
+  }
+  
 }
 </script>
 

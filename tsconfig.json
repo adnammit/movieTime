@@ -1,0 +1,83 @@
+{
+    "compilerOptions": {
+        // this aligns with Vue's browser support
+        // "target": "esnext",
+        "target": "es5",
+        // this enables stricter inference for data properties on `this`
+        "strict": true,
+        // if using webpack 2+ or rollup, to leverage tree shaking:
+        // "module": "esnext",
+        "module": "es2015",
+        "moduleResolution": "node",
+        "jsx": "preserve",
+        "importHelpers": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "esModuleInterop": true,
+        "outDir": "./built",
+        "allowSyntheticDefaultImports": true,
+        "sourceMap": true,
+        "noImplicitReturns": true,
+        "noImplicitAny": true,
+        "types": [
+            "node",
+            // "webpack-env",
+            "vuetify"
+        ],
+        "lib": [
+            "esnext",
+            "dom",
+            "dom.iterable",
+            "scripthost"
+        ],
+        // "lib": [
+        //     "es2016",
+        //     "dom"
+        // ],
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "src/*"
+            ],
+            "@/components/*": [
+                "src/components/*"
+            ],
+            "@/modules/*": [
+                "src/store/modules/*"
+            ],
+            "@/api/*": [
+                "src/services/api/*"
+            ],
+            "@/models/*": [
+                "src/models/*"
+            ]
+        },
+        // "paths": {
+        //     "@src/*": [
+        //         "src/*"
+        //     ],
+        //     "@src/plugins/*": [
+        //         "plugins/*"
+        //     ],
+        //     "@src/components/*": [
+        //         "components/*"
+        //     ]
+        // }
+    },
+    "include": [
+        // "api/**/*.ts",
+        // "api/**/*.tsx",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "src/**/*.vue"
+        // "tests/**/*.ts",
+        // "tests/**/*.tsx"
+    ],
+    "exclude": [
+        "node_modules"
+    ],
+    "compileOnSave": true
+    // "include": [
+    //     "./src/**/*"
+    // ]
+}

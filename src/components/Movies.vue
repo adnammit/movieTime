@@ -33,7 +33,7 @@
 								</v-tooltip>
 								<v-tooltip top>
 									<template v-slot:activator="{ on }">
-										<v-icon v-if="getGenreMatch (movie, 'Sci-Fi')" v-on="on">mdi-death-star-variant</v-icon>
+										<v-icon v-if="getGenreMatch (movie, 'Science Fiction')" v-on="on">mdi-death-star-variant</v-icon>
 									</template>
 									<span>Sci-Fi</span>
 								</v-tooltip>
@@ -87,7 +87,7 @@
 								</v-tooltip>
 							</td>
 							<!-- Year -->
-							<td>{{ movie.Year }}</td>
+							<td>{{ movie.ReleaseDate | formatYear }}</td>
 							<!-- Rating -->
 							<td>{{ movie.Rating }}</td>
 							<!-- Watched -->
@@ -99,56 +99,61 @@
 					</tbody>
 				</template>
 			</v-simple-table>
+			<!-- <div class="my-2">
+				<v-btn small color="primary" @click="saveCollection()">Save</v-btn>
+			</div> -->
 		</div>
 	</div>
 </template>
-<script>
-import moviesApi from '@/services/api/movies'
-import FilterBar from '@/components/FilterBar'
 
-export default {
-  components: {
-    FilterBar
-  },
-  data () {
-    return {
-      isLoading: true,
-      movies: []
+<script lang="ts">
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
+import MovieApi from '@/services/api/MovieApi';
+import AccountService from '@/services/AccountService';
+import FilterBar from '@/components/FilterBar.vue'
+import Movie from '@/models/movie'
+import { Collection } from '@/models/interfaces'
+
+@Component({
+    components: {
+        FilterBar
     }
-  },
-  async created () {
-    let collection = this.getCollection()
-    moviesApi
-      .getMovies(collection)
-      .then(movies => {
-        this.movies = movies
-      })
-    /* eslint-disable no-console */
-      .catch(e => console.log(e))
-      .finally(() => {
-        this.isLoading = false
-      })
-  },
-  methods: {
-    toggleFavorite (movie) {
+})
+export default class MoviesView extends Vue {
+    private isLoading: boolean = true;
+    private movies: Movie[] = [];
+
+    private toggleFavorite (movie: Movie): void {
       movie.Favorite = !movie.Favorite
-    },
-    toggleWatched (movie) {
+    }
+
+    private toggleWatched (movie: Movie): void {
       movie.Watched = !movie.Watched
-    },
-    getGenreMatch (movie, genre) {
+    }
+
+    private getGenreMatch (movie: Movie, genre: string) {
       if (movie.Genres) {
-        return movie.Genres.includes(genre)
+        return movie.Genres.some(g => g.Name == genre)
       }
       return false
-    },
-    getCollection () {
-      var json = require('@/data.json')
-      let userData = json.data.find(d => d.username === 'amandaryman@gmail.com')
-      let collection = (userData != null) ? userData.collection : null
-      return collection
     }
-  }
+
+    async mounted () {
+        let collection: Collection = AccountService.getCollection();
+        MovieApi
+            .getMovies(collection)
+            .then(movies => {
+                this.movies = movies
+            })
+        /* eslint-disable no-console */
+        .catch((e: any) => {
+            console.log(e)
+        })
+        .finally(() => {
+            this.isLoading = false
+        })
+    }
+
 }
 </script>
 

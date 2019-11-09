@@ -60,6 +60,8 @@ A list of all movies in the collection. Filterable by:
 
 
 ## TO DO
+**start here**
+* well, apparently you can't write to a file in js, so you'll have to figure out how to store data...
 * work flow: 
     - default: display all in own collection
     - click Favorites to filter favorites
@@ -73,8 +75,6 @@ A list of all movies in the collection. Filterable by:
             - hover shows details 
             - clicking adds the movie... idk
 * add [uNoGS](https://rapidapi.com/unogs/api/unogs) to query whether or not a movie is available on netflix
-* typescript yo -- do some processing on movies
-    - go through script and make sure you don't have dupe functions
 * what is your data model here? what will be retrieved via api vs stored?
     - data that would need to be stored: check out `data.json`
 * figure out how to store user selections
@@ -96,7 +96,7 @@ A list of all movies in the collection. Filterable by:
     - add sort by genre
     - allow sort by name, year, rating, watched, favorited
 * consolidate css into separate files if that makes sense
-
+* wow yr build takes one million years... see if you can delete some unused packages
 
 ## DONE
 * refactor to use a centralized request mgr for cleaner code -- let components just be components
@@ -112,3 +112,5 @@ A list of all movies in the collection. Filterable by:
         animation - draw
         western - cowboy, cactus
         documentary - video-vintage
+* typescript yo -- do some processing on movies
+    - go through script and make sure you don't have dupe functions        
