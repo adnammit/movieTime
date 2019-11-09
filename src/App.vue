@@ -1,40 +1,38 @@
 <template>
-	<v-app>
-    <NavBar />
-		<v-content class="content">
-			<router-view />
-		</v-content>
-	</v-app>
+    <v-app>
+        <NavBar />
+        <v-content class="content">
+            <router-view />
+        </v-content>
+    </v-app>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import { Prop, Watch } from 'vue-property-decorator'
-import NavBar from '@/components/NavBar.vue'
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop, Watch } from 'vue-property-decorator';
+import NavBar from '@/components/NavBar.vue';
 
 @Component({
-  components: {
-    NavBar
-  }
+    components: {
+        NavBar,
+    },
 })
-
 export default class App extends Vue {
-  private activeUser: string | null = null;
+    private activeUser: string | null = null;
 
-  @Watch('$route')
-  onRouteChanged () {
-    this.refreshActiveUser()
-  }
+    @Watch('$route')
+    onRouteChanged() {
+        this.refreshActiveUser();
+    }
 
-  private async refreshActiveUser () {
-    this.activeUser = await this.$auth.getUser()
-  }
+    private async refreshActiveUser() {
+        this.activeUser = await this.$auth.getUser();
+    }
 
-  async mounted () {
-    await this.refreshActiveUser()
-  }
-  
+    async mounted() {
+        await this.refreshActiveUser();
+    }
 }
 </script>
 
@@ -42,7 +40,7 @@ export default class App extends Vue {
 @import '@/style/colors';
 
 .content {
-  padding: 0;
-  padding-top: 35px !important;
+    padding: 0;
+    padding-top: 35px !important;
 }
 </style>

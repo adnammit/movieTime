@@ -6,14 +6,19 @@ const config = require("@/config.json");
 const url: string = config.movieDbUrl
 const key: string = config.movieDbKey_v4
 
-/// maybe this sets the baseURL for every call? so maybe don't if we want to use multiple apis
-// axios.defaults.baseURL = apiUrl
-axios.defaults.headers.common['Authorization'] = 'Bearer ' + key;
+let requestMgr = axios.create({
+    baseURL: url,
+    headers: {
+        common: {
+            'Authorization': 'Bearer' + key,
+        }
+    }
+})
 
 class MovieApi {
 
-    public searchMovies(search: string) {
-        return axios.get(url + 'search/multi/?query=' + search)
+    public async search(search: string) {
+        return requestMgr.get('search/multi/?query=' + search)
             .then(res => {
                 let data = res.data.results
                 let movies: Movie[] = []
@@ -25,7 +30,7 @@ class MovieApi {
     }
 
     public async getMovie(id: string) {
-        return axios.get(url + 'movie/' + id)
+        return requestMgr.get('movie/' + id)
             .then(res => {
                 return this.parseMovie(res.data)
             })

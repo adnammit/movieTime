@@ -61,7 +61,7 @@ export default class FilterBar extends Vue {
         this.isLoading = true;
         console.log('>> Searching for ' + this.search);
         MovieApi
-            .searchMovies(this.search)
+            .search(this.search)
             .then((results: any) => {
                 if (results.Error != null) {
                     this.isErrored = true;
