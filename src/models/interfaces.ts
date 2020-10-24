@@ -1,5 +1,5 @@
 export interface CollectionItem {
-    Id: string;
+    Id: number;
     Favorite: string;
     Watched: string;
 }

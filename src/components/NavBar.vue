@@ -6,8 +6,8 @@
                     <span>WTFSWW</span>
                 </v-btn>
             </v-toolbar-title>
-            <v-btn text href="/movies">
-                <span class="font-weight-light">My Movies</span>
+            <v-btn text href="/collection">
+                <span class="font-weight-light">My Collection</span>
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn text href="#" @click.prevent="login" v-if="!activeUser">

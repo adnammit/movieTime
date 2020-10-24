@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello.vue'
-import Movies from '@/components/Movies.vue'
+import Collection from '@/components/Collection.vue'
 import Auth from '@okta/okta-vue'
 
 const config = require("@/config.json");
@@ -31,9 +31,9 @@ let router = new Router({
             component: Auth.handleCallback()
         },
         {
-            path: '/movies',
-            name: 'Movies',
-            component: Movies,
+            path: '/collection',
+            name: 'Collection',
+            component: Collection,
             meta: {
                 requiresAuth: true
             }

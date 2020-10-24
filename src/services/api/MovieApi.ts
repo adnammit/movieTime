@@ -4,13 +4,14 @@ import { Collection, Genre } from '@/models/interfaces'
 
 const config = require("@/config.json");
 const url: string = config.movieDbUrl
-const key: string = config.movieDbKey_v4
+const token: string = config.movieDbToken
+// const key: string = config.movieDbKey
 
 let requestMgr = axios.create({
     baseURL: url,
     headers: {
         common: {
-            'Authorization': 'Bearer' + key,
+            'Authorization': 'Bearer ' + token
         }
     }
 })
@@ -18,18 +19,21 @@ let requestMgr = axios.create({
 class MovieApi {
 
     public async search(search: string) {
-        return requestMgr.get('search/multi/?query=' + search)
+        return requestMgr.get('search/multi?query=' + search)
             .then(res => {
                 let data = res.data.results
                 let movies: Movie[] = []
                 data.forEach((d: any) => {
-                    movies.push(this.parseMovie(d))
+                    if (d.media_type == 'movie' || d.media_type == 'tv')
+                        movies.push(this.parseMovie(d))
+                    else
+                        console.log('>> non-movie search result: ' + JSON.stringify(d));
                 })
                 return movies
             })
     }
 
-    public async getMovie(id: string) {
+    public async getMovie(id: number) {
         return requestMgr.get('movie/' + id)
             .then(res => {
                 return this.parseMovie(res.data)
@@ -54,10 +58,13 @@ class MovieApi {
     }
 
     private parseMovie(res: any): Movie {
-        let genres: Genre[] = res.genres.map((g: any) => <Genre>{
-            Id: g.id,
-            Name: g.name
-        })
+        let genres: Genre[] = []
+        if (res.genres) {
+            genres = res.genres.map((g: any) => <Genre>{
+                Id: g.id,
+                Name: g.name
+            })
+        }
 
         // let known = [];
         // let unaccounted = genres.map((g) => {
@@ -76,6 +83,7 @@ class MovieApi {
             Genres: genres,
             Rating: res.vote_average,
             Poster: res.poster_path,
+            Summary: res.overview,
             UserRating: 5,
             Watched: false,
             Favorite: false

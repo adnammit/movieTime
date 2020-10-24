@@ -61,6 +61,13 @@ A list of all movies in the collection. Filterable by:
 
 ## TO DO
 **start here**
+* work out how these objects should be mapped:
+    - Collection -> look into using data stored in api db
+    - Movie -> CollectionItem?
+    - SearchResult
+        * SearchResult and CollectionItem inherit from some common base? they're v similar
+    - consider making these interfaces
+* consolidate css for movies and search
 * well, apparently you can't write to a file in js, so you'll have to figure out how to store data...
 * work flow: 
     - default: display all in own collection
