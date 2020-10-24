@@ -34,9 +34,9 @@ let router = new Router({
             path: '/collection',
             name: 'Collection',
             component: Collection,
-            meta: {
-                requiresAuth: true
-            }
+            // meta: {
+            //     requiresAuth: true
+            // }
         }
     ]
 })
